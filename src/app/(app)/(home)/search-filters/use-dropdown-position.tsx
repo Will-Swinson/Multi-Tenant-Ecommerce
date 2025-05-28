@@ -4,7 +4,7 @@ export const useDropdownPosition = (
   ref: RefObject<HTMLDivElement | null> | RefObject<HTMLDivElement>,
 ) => {
   const getDropdownPosition = () => {
-    if (!ref.current) return { left: 0, right: 0 };
+    if (!ref.current) return { left: 0, top: 0 };
 
     const rect = ref.current.getBoundingClientRect();
     const dropdownWidth = 240;
