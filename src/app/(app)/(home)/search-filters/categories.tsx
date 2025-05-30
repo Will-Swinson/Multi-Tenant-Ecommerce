@@ -1,6 +1,6 @@
 "use client";
 import { CategoryDropdown } from "./category-dropdown";
-import { CustomCategory } from "../types";
+
 
 import { useEffect, useState } from "react";
 import { useRef } from "react";
@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 import { CategoriesSidebar } from "./categories-sidebar";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface CategoriesProps {
-  categories: CustomCategory[];
+  categories: CategoriesGetManyOutput;
 }
 export const Categories = ({ categories }: CategoriesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        categories={categories}
+        
       />
       {/* Hidden Elements */}
       <div
