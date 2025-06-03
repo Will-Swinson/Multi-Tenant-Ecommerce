@@ -1,7 +1,7 @@
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { headers as getHeaders, cookies as getCookies } from "next/headers";
-import { AUTH_COOKIE } from "../contants";
+import { AUTH_COOKIE } from "../constants";
 import { loginSchema, registerSchema } from "../schemas";
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {

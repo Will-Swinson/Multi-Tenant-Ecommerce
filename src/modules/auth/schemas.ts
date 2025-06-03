@@ -7,7 +7,7 @@ export const registerSchema = z.object({
     .max(63)
     .regex(
       /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-      "Username can only contain lowercase letters, numbers and hypens. It must start and end with a letter or number",
+      "Username can only contain lowercase letters, numbers and hyphens. It must start and end with a letter or number",
     )
     .refine(
       (val) => !val.includes("--"),
