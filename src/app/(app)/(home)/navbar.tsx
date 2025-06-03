@@ -1,14 +1,15 @@
 "use client";
 import { Poppins } from "next/font/google";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { NavbarSidebar } from "./navbar-siderbar";
-
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { MenuIcon } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { NavbarSidebar } from "./navbar-siderbar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -42,6 +43,9 @@ const navbarItems = [
   { href: "/contact", children: "Contact" },
 ];
 export const Navbar = () => {
+  const trpc = useTRPC();
+  const session = useQuery(trpc.auth.session.queryOptions());
+
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
@@ -67,26 +71,38 @@ export const Navbar = () => {
           </NavbarItem>
         ))}
       </div>
-      <div className="hidden lg:flex">
-        <Button
-          asChild
-          variant="secondary"
-          className="border-l  border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
-        >
-          <Link prefetch href="/sign-in">
-            Login
-          </Link>
-        </Button>
-        <Button
-          asChild
-          variant="secondary"
-          className="border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg"
-        >
-          <Link prefetch href="/sign-up">
-            Start Selling
-          </Link>
-        </Button>
-      </div>
+      {session.data?.user ? (
+        <div className="hidden lg:flex">
+          <Button
+            asChild
+            variant="secondary"
+            className="border-l bg-black border-r-0 px-12 h-full rounded-none text-white hover:bg-pink-400 transition-colors text-lg"
+          >
+            <Link href="/admin">Dashboard</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="hidden lg:flex">
+          <Button
+            asChild
+            variant="secondary"
+            className="border-l  border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
+          >
+            <Link prefetch href="/sign-in">
+              Login
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="secondary"
+            className="border-l border-y-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg"
+          >
+            <Link prefetch href="/sign-up">
+              Start Selling
+            </Link>
+          </Button>
+        </div>
+      )}
       <div className=" flex lg:hidden items-center justify-center">
         <Button
           variant="ghost"

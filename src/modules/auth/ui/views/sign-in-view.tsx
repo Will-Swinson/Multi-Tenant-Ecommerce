@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTRPC } from "@/trpc/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
@@ -33,17 +33,45 @@ export default function SignInView() {
   const router = useRouter();
 
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
 
   const login = useMutation(
     trpc.auth.login.mutationOptions({
       onError: (error) => {
         toast.error(error.message);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
         router.push("/");
       },
     }),
   );
+
+  // REST API METHOD FOR LOGIN
+  // const login = useMutation({
+  //   mutationFn: async (values: z.infer<typeof loginSchema>) => {
+  //     const response = await fetch("/api/users/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(values),
+  //     });
+
+  //     if (!response.ok) {
+  //       const error = await response.json();
+  //       throw new Error(error.message || "Login Failed");
+  //     }
+
+  //     return response.json();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.message);
+  //   },
+  //   onSuccess: () => {
+  //     router.push("/");
+  //   },
+  // });
 
   const form = useForm<z.infer<typeof loginSchema>>({
     mode: "all",
