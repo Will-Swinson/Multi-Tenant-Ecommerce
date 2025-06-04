@@ -1,19 +1,21 @@
 "use client";
 import { CategoryDropdown } from "./category-dropdown";
 
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 import { CategoriesSidebar } from "./categories-sidebar";
 import { CategoriesGetManyOutput } from "@/modules/categories/types";
+import { useParams } from "next/navigation";
 
 interface CategoriesProps {
   categories: CategoriesGetManyOutput;
 }
 export const Categories = ({ categories }: CategoriesProps) => {
+  const { category } = useParams();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);
@@ -22,7 +24,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
   const [isAnyHovered, setIsAnyHovered] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const activeCategory = "all";
+  const activeCategory = category || "all";
 
   const activeCategoryIndex = categories.findIndex(
     (cat) => cat.slug === activeCategory,
@@ -63,11 +65,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
   // const [isNavigationHovered, setIsNavigationHovered] = useState(false);
   return (
     <div className="relative w-full">
-      <CategoriesSidebar
-        open={isSidebarOpen}
-        onOpenChange={setIsSidebarOpen}
-        
-      />
+      <CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
       {/* Hidden Elements */}
       <div
         ref={measureRef}
@@ -102,6 +100,7 @@ export const Categories = ({ categories }: CategoriesProps) => {
         ))}
         <div ref={viewAllRef} className="shrink-0">
           <Button
+            variant="elevated"
             className={cn(
               "h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black",
               isActiveCategoryHidden &&
