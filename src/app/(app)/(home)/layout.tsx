@@ -1,4 +1,5 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+
 import { Footer } from "@/modules/home/ui/components/footer";
 import { Navbar } from "@/modules/home/ui/components/navbar";
 import {
