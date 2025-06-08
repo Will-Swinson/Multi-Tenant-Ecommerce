@@ -4,7 +4,7 @@ import ProductList, { ProductListSkeleton } from "../components/product-list";
 import ProductsSort from "../components/products-sort";
 
 interface Props {
-  category: string;
+  category?: string;
 }
 export default function ProductListView({ category }: Props) {
   return (
