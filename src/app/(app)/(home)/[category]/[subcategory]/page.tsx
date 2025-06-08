@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE_LIMIT } from "@/constants";
 import { loadProductFilters } from "@/modules/products/search-params";
 
 import ProductListView from "@/modules/products/ui/views/product-list-view";
@@ -18,8 +19,12 @@ export default async function SubCategoryPage({ params, searchParams }: Props) {
   const filters = await loadProductFilters(searchParams);
 
   const queryClient = await getQueryClient();
-  void queryClient.prefetchQuery(
-    trpc.products.getMany.queryOptions({ category: subcategory, ...filters }),
+  void queryClient.prefetchInfiniteQuery(
+    trpc.products.getMany.infiniteQueryOptions({
+      category: subcategory,
+      ...filters,
+      limit: DEFAULT_PAGE_LIMIT,
+    }),
   );
 
   return (
