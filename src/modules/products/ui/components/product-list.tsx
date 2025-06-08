@@ -10,15 +10,16 @@ import { InboxIcon } from "lucide-react";
 
 interface Props {
   category?: string;
+  tenantSlug?: string;
 }
-export default function ProductList({ category }: Props) {
+export default function ProductList({ category, tenantSlug }: Props) {
   const [filters] = useProductFilters();
 
   const trpc = useTRPC();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery(
       trpc.products.getMany.infiniteQueryOptions(
-        { category, ...filters, limit: DEFAULT_PAGE_LIMIT },
+        { category, ...filters, tenantSlug, limit: DEFAULT_PAGE_LIMIT },
         {
           getNextPageParam: (lastPage) => {
             return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
@@ -38,7 +39,7 @@ export default function ProductList({ category }: Props) {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
         {data?.pages
           .flatMap((page) => page.docs)
           .map((product) => (
@@ -47,8 +48,8 @@ export default function ProductList({ category }: Props) {
               id={product.id}
               name={product.name}
               imageUrl={product.image?.url}
-              authorUsername="Will Swinson"
-              authorImageUrl={undefined}
+              tenantSlug={product.tenant?.slug}
+              tenantImageUrl={product.tenant?.image?.url}
               reviewRating={3}
               reviewCount={5}
               price={product.price}
@@ -73,7 +74,7 @@ export default function ProductList({ category }: Props) {
 
 export function ProductListSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
       {Array.from({ length: DEFAULT_PAGE_LIMIT }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}
