@@ -10,6 +10,17 @@ import { LinkIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+// import CartButton from "../components/cart-button";
+import dynamic from "next/dynamic";
+
+const CartButton = dynamic(() => import("../components/cart-button"), {
+  ssr: false,
+  loading: () => (
+    <Button disabled className="flex-1 bg-pink-400">
+      Add to cart
+    </Button>
+  ),
+});
 
 interface Props {
   productId: string;
@@ -86,13 +97,7 @@ export default function ProductView({ productId, tenantSlug }: Props) {
             <div className="border-t lg:border-t-0 lg:border-l h-full">
               <div className="flex flex-col gap-4 p-6 border-b">
                 <div className="flex flex-row items-center gap-2">
-                  <Button
-                    variant="elevated"
-                    className="flex-1 bg-pink-400"
-                    onClick={() => {}}
-                  >
-                    Add to cart
-                  </Button>
+                  <CartButton productId={product.id} tenantSlug={tenantSlug} />
                   <Button
                     variant="elevated"
                     className="size-12"
