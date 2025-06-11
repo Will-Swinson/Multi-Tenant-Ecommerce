@@ -42,11 +42,10 @@ export default function CheckoutView({ tenantSlug }: Props) {
   );
 
   useEffect(() => {
-    console.log(checkoutStates.success);
     if (checkoutStates.success) {
       setCheckoutStates({ success: false, cancel: false });
       clearCart();
-      router.push("/products");
+      window.location.href = "/library";
     }
   }, [checkoutStates.success, setCheckoutStates, router, clearCart]);
 
