@@ -2,8 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { StarIcon } from "lucide-react";
 import React from "react";
-import { useRouter } from "next/navigation";
-import { formatCurrency, generateTenantUrl } from "@/lib/utils";
 interface ProductCardProps {
   id: string;
   name: string;
@@ -12,7 +10,6 @@ interface ProductCardProps {
   tenantImageUrl?: string | null;
   reviewRating: number;
   reviewCount: number;
-  price: number;
 }
 
 export default function ProductCard({
@@ -23,18 +20,9 @@ export default function ProductCard({
   tenantImageUrl,
   reviewRating,
   reviewCount,
-  price,
 }: ProductCardProps) {
-  const router = useRouter();
-
-  function handleUserClick(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    router.push(generateTenantUrl(tenantSlug));
-  }
   return (
-    <Link href={`${generateTenantUrl(tenantSlug)}/products/${id}`}>
+    <Link href={`/library/${id}`}>
       <div className="hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px] transition-shadow rounded-md bg-white overflow-hidden h-full flex flex-col">
         <div className="relative aspect-square">
           <Image
@@ -46,7 +34,7 @@ export default function ProductCard({
         </div>
         <div className="p-4 border-y flex flex-col gap-3 flex-1">
           <h2 className="text-lg font-medium line-clamp-4">{name}</h2>
-          <div className="flex items-center gap-2" onClick={handleUserClick}>
+          <div className="flex items-center gap-2">
             {tenantImageUrl && (
               <Image
                 alt={tenantSlug}
@@ -67,11 +55,6 @@ export default function ProductCard({
               </p>
             </div>
           )}
-        </div>
-        <div className="p-4">
-          <div className="relative px-2 py-1 border bg-pink-400 w-fit">
-            <p className="text-sm font-medium">{formatCurrency(price)}</p>
-          </div>
         </div>
       </div>
     </Link>
