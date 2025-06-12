@@ -1,7 +1,7 @@
 "use client";
 import { toast } from "sonner";
 import { useTRPC } from "@/trpc/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCart } from "../../hooks/use-cart";
 import { useEffect } from "react";
 import { generateTenantUrl } from "@/lib/utils";
@@ -17,6 +17,7 @@ interface Props {
 export default function CheckoutView({ tenantSlug }: Props) {
   const [checkoutStates, setCheckoutStates] = useCheckoutStates();
 
+  const queryClient = useQueryClient();
   const router = useRouter();
   const trpc = useTRPC();
   const { productIds, removeProduct, clearCart } = useCart(tenantSlug);
@@ -45,9 +46,17 @@ export default function CheckoutView({ tenantSlug }: Props) {
     if (checkoutStates.success) {
       setCheckoutStates({ success: false, cancel: false });
       clearCart();
+      queryClient.invalidateQueries(trpc.library.getMany.infiniteQueryFilter());
       window.location.href = "/library";
     }
-  }, [checkoutStates.success, setCheckoutStates, router, clearCart]);
+  }, [
+    checkoutStates.success,
+    setCheckoutStates,
+    router,
+    clearCart,
+    queryClient,
+    trpc.library.getMany,
+  ]);
 
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {
