@@ -11,7 +11,7 @@ export default function ProductList() {
   const trpc = useTRPC();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery(
-      trpc.products.getMany.infiniteQueryOptions(
+      trpc.library.getMany.infiniteQueryOptions(
         { limit: DEFAULT_PAGE_LIMIT },
         {
           getNextPageParam: (lastPage) => {
@@ -20,7 +20,6 @@ export default function ProductList() {
         },
       ),
     );
-
   if (data.pages?.[0]?.docs.length === 0) {
     return (
       <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">

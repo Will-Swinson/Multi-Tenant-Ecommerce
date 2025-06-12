@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import StarRating from "@/components/ui/star-rating";
+import StarRating from "@/components/star-rating";
 import { formatCurrency, generateTenantUrl } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { Progress } from "@/components/ui/progress";
