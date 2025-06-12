@@ -4,8 +4,8 @@ import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function LibraryPage() {
-  const queryClient = getQueryClient();
-  void queryClient.prefetchInfiniteQuery(
+  const queryClient = await getQueryClient();
+  void  queryClient.prefetchInfiniteQuery(
     trpc.library.getMany.infiniteQueryOptions({ limit: DEFAULT_PAGE_LIMIT }),
   );
   return (

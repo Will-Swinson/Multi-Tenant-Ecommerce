@@ -29,7 +29,7 @@ export default function ProductCard({
             alt={name}
             fill
             className="object-cover"
-            src={imageUrl || ""}
+            src={imageUrl || "/placeholder.png"}
           />
         </div>
         <div className="p-4 border-y flex flex-col gap-3 flex-1">

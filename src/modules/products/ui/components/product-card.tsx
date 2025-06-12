@@ -41,7 +41,7 @@ export default function ProductCard({
             alt={name}
             fill
             className="object-cover"
-            src={imageUrl || ""}
+            src={imageUrl || "/placeholder.png"}
           />
         </div>
         <div className="p-4 border-y flex flex-col gap-3 flex-1">
@@ -70,9 +70,7 @@ export default function ProductCard({
         </div>
         <div className="p-4">
           <div className="relative px-2 py-1 border bg-pink-400 w-fit">
-            <p className="text-sm font-medium">
-              {formatCurrency(price)}
-            </p>
+            <p className="text-sm font-medium">{formatCurrency(price)}</p>
           </div>
         </div>
       </div>
