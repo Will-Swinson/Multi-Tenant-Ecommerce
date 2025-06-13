@@ -40,6 +40,7 @@ export const reviewsRouter = createTRPCRouter({
             },
           ],
         },
+        overrideAccess: false,
       });
 
       const review = reviewData.docs[0];
