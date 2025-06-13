@@ -7,17 +7,12 @@ import { ExpandedLineItem } from "@/modules/checkout/types";
 
 export async function POST(req: Request) {
   let event: Stripe.Event;
-  const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!stripeWebhookSecret) {
-    throw new Error("Missing STRIPE_WEBHOOK_SECRET in environment variables");
-  }
 
   try {
     event = stripe.webhooks.constructEvent(
       await (await req.blob()).text(),
       req.headers.get("stripe-signature") as string,
-      stripeWebhookSecret,
+      process.env.STRIPE_WEBHOOK_SECRET as string,
     );
   } catch (error) {
     const errorMessage =
