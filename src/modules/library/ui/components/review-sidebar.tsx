@@ -11,6 +11,5 @@ export default function ReviewSidebar({ productId }: Props) {
   const { data: review } = useSuspenseQuery(
     trpc.reviews.getOne.queryOptions({ productId }),
   );
-  console.log(review);
   return <ReviewForm productId={productId} initialData={review} />;
 }
