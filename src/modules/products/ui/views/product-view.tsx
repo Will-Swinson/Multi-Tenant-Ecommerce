@@ -12,6 +12,9 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
+import {
+  RichText,
+} from "@payloadcms/richtext-lexical/react";
 
 const CartButton = dynamic(() => import("../components/cart-button"), {
   ssr: false,
@@ -97,10 +100,10 @@ export default function ProductView({ productId, tenantSlug }: Props) {
             </div>
             <div className="p-6">
               {product.description ? (
-                <p>{product.description}</p>
+                <RichText data={product.description} />
               ) : (
                 <p className="font-medium text-muted-foreground italic">
-                  {product.description}
+                  No description provided
                 </p>
               )}
             </div>
@@ -177,6 +180,23 @@ export default function ProductView({ productId, tenantSlug }: Props) {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ProductViewSkeleton() {
+  return (
+    <div className="py-10 px-4 lg:px-12">
+      <div className="border rounded-sm bg-white overflow-hidden">
+        <div className="relative aspect-[3.9] border-b">
+          <Image
+            src={"/placeholder.png"}
+            alt={"Placeholder"}
+            fill
+            className="object-cover"
+          />
         </div>
       </div>
     </div>
