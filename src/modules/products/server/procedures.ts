@@ -118,6 +118,7 @@ export const productsRouter = createTRPCRouter({
       z.object({
         cursor: z.number().default(1),
         limit: z.number().default(DEFAULT_PAGE_LIMIT),
+        search: z.string().nullable().optional(),
         category: z.string().nullable().optional(),
         minPrice: z.string().nullable().optional(),
         maxPrice: z.string().nullable().optional(),
@@ -209,6 +210,12 @@ export const productsRouter = createTRPCRouter({
       if (input.tags && input.tags.length > 0) {
         where["tags.name"] = {
           in: input.tags,
+        };
+      }
+
+      if (input.search) {
+        where["name"] = {
+          like: input.search,
         };
       }
 

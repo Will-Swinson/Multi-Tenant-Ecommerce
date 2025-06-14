@@ -35,7 +35,7 @@ export default function ProductCard({
   }
   return (
     <Link href={`${generateTenantUrl(tenantSlug)}/products/${id}`}>
-      <div className="hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px] transition-shadow rounded-md bg-white overflow-hidden h-full flex flex-col">
+      <div className="hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px] transition-shadow rounded-md bg-white overflow-hidden h-full flex flex-col border" >
         <div className="relative aspect-square">
           <Image
             alt={name}
