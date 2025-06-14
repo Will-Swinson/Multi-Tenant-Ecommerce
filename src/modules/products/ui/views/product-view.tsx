@@ -12,9 +12,7 @@ import Link from "next/link";
 import { Fragment, useState } from "react";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
-import {
-  RichText,
-} from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 const CartButton = dynamic(() => import("../components/cart-button"), {
   ssr: false,
@@ -118,7 +116,9 @@ export default function ProductView({ productId, tenantSlug }: Props) {
                       asChild
                       className="flex-1 font-medium bg-white"
                     >
-                      <Link prefetch href={`/library/${product.id}`}>
+                      <Link
+                        href={`${process.env.NEXT_PUBLIC_APP_URL}/library/${product.id}`}
+                      >
                         View in Library
                       </Link>
                     </Button>
